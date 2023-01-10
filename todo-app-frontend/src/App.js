@@ -5,8 +5,6 @@ import TodoItem from './components/todoItem';
 function App() {
   const [todoItems, setTodoItems] = useState(null);
 
-
-
   useEffect(() => {
     console.log("initialized");
 
@@ -20,16 +18,42 @@ function App() {
     }
   }, [todoItems]);
 
+  function addNewTodoItem() {
+    fetch('http://localhost:8080/api/todoItems', {
+      headers: {
+        "content-type": "application/json",
+      },
+      method: 'POST',
+    })
+      .then(response => response.json())
+      .then((data) => {
+        console.log(data);
+        setTodoItems([...todoItems, data]);
+      });
+  }
+
+  function handleTodoItemDelete(item) {
+    const updatedTodoItems = todoItems.filter(data => data.id !== item.id);
+    console.log("updated todo Items after delete", updatedTodoItems);
+    setTodoItems([...updatedTodoItems]);
+
+  }
+
   return (
-    <div>
-      {todoItems
-        ? todoItems.map(todoItem => {
-          return (
-            <TodoItem key={todoItem.id} data={todoItem} />
-          );
-        })
-        : 'Loading'}
-    </div>
+    <>
+      <div>
+        <button onClick={addNewTodoItem}> Add new task </button>
+      </div>
+      <div>
+        {todoItems
+          ? todoItems.map(todoItem => {
+            return (
+              <TodoItem key={todoItem.id} data={todoItem} emitDeleteTodoItem={handleTodoItemDelete} />
+            );
+          })
+          : 'Loading'}
+      </div>
+    </>
   );
 }
 
