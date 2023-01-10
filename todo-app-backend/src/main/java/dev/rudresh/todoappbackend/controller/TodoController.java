@@ -4,9 +4,7 @@ import dev.rudresh.todoappbackend.domain.TodoItem;
 import dev.rudresh.todoappbackend.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,15 +14,20 @@ public class TodoController {
 
     @Autowired
     private TodoService todoService;
-    private Long id = 0L;
+
     //Fetch all todoitems
     @GetMapping("/api/todoItems")
     public ResponseEntity<?> fetchAllTodoItems() {
         List<TodoItem> todoItems = todoService.fetchAllTodoItems();
-        if (todoItems == null || todoItems.size() == 0) {
-            TodoItem item = new TodoItem(id++, "Task 1", false);
-            todoItems.add(item);
-        }
+
         return ResponseEntity.ok(todoItems);
+    }
+
+    @PutMapping("/api/todoItems/{id}")
+    public ResponseEntity<?> updateTodoItem(@PathVariable Long  id, @RequestBody TodoItem todoItem) {
+
+        TodoItem updatedTodoItem = todoService.updateTodoItem(id, todoItem);
+
+        return (updatedTodoItem != null) ? ResponseEntity.ok(updatedTodoItem) : (ResponseEntity<?>) ResponseEntity.notFound();
     }
 }

@@ -5,13 +5,9 @@ public class TodoItem {
     private String task;
     private Boolean isComplete;
 
-    public TodoItem() {}
+//    public TodoItem() {}
 
-    public TodoItem(Long id, String task, Boolean isComplete) {
-        this.id = id;
-        this.task = task;
-        this.isComplete = isComplete;
-    }
+//    public TodoItem(Long id, String task, Boolean isComplete) {
 
     public Long getId() {
         return id;
@@ -29,11 +25,12 @@ public class TodoItem {
         this.task = task;
     }
 
-    public Boolean getComplete() {
+    public Boolean getIsComplete() {
         return isComplete;
     }
 
-    public void setComplete(Boolean complete) {
-        isComplete = complete;
+    public void setIsComplete(Boolean isComplete) {
+        this.isComplete = isComplete;
     }
+
 }
