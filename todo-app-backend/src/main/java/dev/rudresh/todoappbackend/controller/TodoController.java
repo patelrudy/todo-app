@@ -23,11 +23,23 @@ public class TodoController {
         return ResponseEntity.ok(todoItems);
     }
 
+    @PostMapping("/api/todoItems")
+    public ResponseEntity<?> createNewTodoItem() {
+        TodoItem todoItem = todoService.createTodoItem();
+        return ResponseEntity.ok(todoItem);
+    }
+
     @PutMapping("/api/todoItems/{id}")
     public ResponseEntity<?> updateTodoItem(@PathVariable Long  id, @RequestBody TodoItem todoItem) {
 
         TodoItem updatedTodoItem = todoService.updateTodoItem(id, todoItem);
 
         return (updatedTodoItem != null) ? ResponseEntity.ok(updatedTodoItem) : (ResponseEntity<?>) ResponseEntity.notFound();
+    }
+
+    @DeleteMapping("/api/todoItems/{id}")
+    public ResponseEntity<?> deleteTodoItem(@PathVariable Long id) {
+        todoService.deleteTodoItem(id);
+        return ResponseEntity.ok("{\"status\": \"ok\"}");
     }
 }

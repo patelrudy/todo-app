@@ -14,6 +14,14 @@ public class TodoService {
     @Autowired
     private TodoRepository todoRepository;
 
+    public TodoItem createTodoItem() {
+        TodoItem todoItem = new TodoItem();
+        todoItem.setIsComplete(false);
+        todoItem = todoRepository.save(todoItem);
+        todoItem.setTask("TODO " + todoItem.getId());
+        return todoItem;
+    }
+
     public List<TodoItem> fetchAllTodoItems() {
         return todoRepository.fetchAllTodoItems();
     }
@@ -27,5 +35,9 @@ public class TodoService {
             return item;
         }
         return null;
+    }
+
+    public void deleteTodoItem(Long id) {
+       todoRepository.delete(id);
     }
 }
